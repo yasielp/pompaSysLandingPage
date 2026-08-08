@@ -33,20 +33,28 @@ export default {
       return jsonResponse({ success: false, message: "Uno de los campos es demasiado largo." }, 400);
     }
 
-    try {
-      await env.EMAIL.send({
-        to: DESTINATION,
-        from: { email: SENDER, name: "PompaSys — Sitio web" },
+    const brevoRes = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "api-key": env.BREVO_API_KEY
+      },
+      body: JSON.stringify({
+        sender: { email: SENDER, name: "PompaSys — Sitio web" },
+        to: [{ email: DESTINATION }],
         replyTo: { email, name },
         subject: `Nuevo mensaje de ${name} — PompaSys`,
-        text: `Nombre: ${name}\nCorreo: ${email}\n\nMensaje:\n${message}`,
-        html:
+        textContent: `Nombre: ${name}\nCorreo: ${email}\n\nMensaje:\n${message}`,
+        htmlContent:
           `<p><strong>Nombre:</strong> ${escapeHtml(name)}</p>` +
           `<p><strong>Correo:</strong> ${escapeHtml(email)}</p>` +
           `<p><strong>Mensaje:</strong></p><p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>`
-      });
-    } catch (err) {
-      return jsonResponse({ success: false, message: "No se pudo enviar el correo." }, 500);
+      })
+    });
+
+    if (!brevoRes.ok) {
+      return jsonResponse({ success: false, message: "No se pudo enviar el correo." }, 502);
     }
 
     return jsonResponse({ success: true });

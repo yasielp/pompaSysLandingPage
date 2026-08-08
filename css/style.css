@@ -4,25 +4,25 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --color-bg: #fafbff;
+  --color-bg: #ffffff;
   --color-surface: #ffffff;
-  --color-surface-alt: #f1f4ff;
-  --color-text: #0f1222;
-  --color-text-muted: #5b6178;
-  --color-border: #e4e8f7;
+  --color-surface-alt: #f7f9fc;
+  --color-text: #101828;
+  --color-text-muted: #5a6478;
+  --color-border: #e3e7ef;
 
-  --color-primary: #2e5bff;
-  --color-primary-dark: #1e3fcc;
-  --color-accent: #ff3dae;
-  --color-accent-2: #8a5cff;
+  --color-primary: #155eef;
+  --color-primary-dark: #0b3b8c;
+  --color-accent: #0b3b8c;
+  --color-accent-2: #64748b;
 
   --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   --gradient-text: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
 
-  --shadow-sm: 0 1px 2px rgba(15, 18, 34, 0.06);
-  --shadow-md: 0 8px 24px rgba(15, 18, 34, 0.08);
-  --shadow-lg: 0 20px 48px rgba(15, 18, 34, 0.14);
-  --shadow-glow: 0 0 40px rgba(46, 91, 255, 0.3);
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 8px 24px rgba(16, 24, 40, 0.08);
+  --shadow-lg: 0 20px 48px rgba(16, 24, 40, 0.12);
+  --shadow-glow: 0 0 32px rgba(21, 94, 239, 0.2);
 
   --radius-sm: 8px;
   --radius-md: 16px;
@@ -120,7 +120,7 @@ input, textarea { font: inherit; }
   font-weight: 700;
   box-shadow: var(--shadow-glow);
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 56px rgba(46, 91, 255, 0.35); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 56px rgba(21, 94, 239, 0.35); }
 .btn-ghost {
   background: var(--color-surface);
   color: var(--color-text);
@@ -137,10 +137,8 @@ input, textarea { font: inherit; }
   top: 0; left: 0; right: 0;
   height: var(--header-h);
   z-index: 100;
-  background: rgba(250, 251, 255, 0.75);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid transparent;
+  background: #ffffff;
+  border-bottom: 1px solid var(--color-border);
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 .header.is-scrolled {
@@ -237,8 +235,8 @@ input, textarea { font: inherit; }
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(46, 91, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(46, 91, 255, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(21, 94, 239, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 94, 239, 0.06) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
@@ -247,8 +245,8 @@ input, textarea { font: inherit; }
 .glow {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.35;
+  filter: blur(90px);
+  opacity: 0.16;
 }
 .glow-1 {
   width: 480px; height: 480px;
@@ -259,7 +257,7 @@ input, textarea { font: inherit; }
   width: 420px; height: 420px;
   background: var(--color-accent);
   top: -100px; right: 5%;
-  opacity: 0.25;
+  opacity: 0.12;
 }
 
 .hero-inner { text-align: center; max-width: 860px; }
@@ -280,7 +278,7 @@ input, textarea { font: inherit; }
   width: 8px; height: 8px;
   border-radius: 50%;
   background: var(--gradient-primary);
-  box-shadow: 0 0 12px rgba(46, 91, 255, 0.6);
+  box-shadow: 0 0 12px rgba(21, 94, 239, 0.6);
 }
 
 .hero-title {
@@ -394,7 +392,7 @@ input, textarea { font: inherit; }
 .card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
-  border-color: rgba(46, 91, 255, 0.3);
+  border-color: rgba(21, 94, 239, 0.3);
 }
 .card-icon {
   width: 52px; height: 52px;
@@ -451,10 +449,10 @@ input, textarea { font: inherit; }
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1px dashed rgba(46, 91, 255, 0.35);
+  border: 1px dashed rgba(21, 94, 239, 0.35);
   animation: spin 18s linear infinite;
 }
-.ring-2 { inset: 34px; border-color: rgba(255, 61, 174, 0.35); animation-duration: 12s; animation-direction: reverse; }
+.ring-2 { inset: 34px; border-color: rgba(100, 116, 139, 0.35); animation-duration: 12s; animation-direction: reverse; }
 .orbit-core {
   position: absolute;
   inset: 90px;
