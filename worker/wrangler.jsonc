@@ -1,0 +1,14 @@
+{
+  "name": "pompasys-contact",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-01",
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "destination_address": "pompasys@gmail.com"
+    }
+  ],
+  "routes": [
+    "pompasys.com/api/contact"
+  ]
+}
