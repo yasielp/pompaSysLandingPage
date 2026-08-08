@@ -54,6 +54,8 @@ export default {
     });
 
     if (!brevoRes.ok) {
+      const brevoError = await brevoRes.text();
+      console.error("Brevo error", brevoRes.status, brevoError);
       return jsonResponse({ success: false, message: "No se pudo enviar el correo." }, 502);
     }
 
