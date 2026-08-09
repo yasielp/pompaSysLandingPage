@@ -285,6 +285,17 @@ input, textarea { font: inherit; }
   -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
 }
 
+.binary-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("../assets/binary-pattern.svg");
+  background-repeat: repeat;
+  background-size: 280px 280px;
+  opacity: 0.14;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+}
+
 .glow {
   position: absolute;
   border-radius: 50%;
