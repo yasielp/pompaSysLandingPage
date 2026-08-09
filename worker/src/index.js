@@ -1,19 +1,19 @@
-const ALLOWED_ORIGIN = "https://pompasys.com";
+const ALLOWED_ORIGINS = ["https://pompasys.com", "https://www.pompasys.com"];
 const DESTINATION = "pompasys@gmail.com";
 const SENDER = "noreply@pompasys.com";
 
 export default {
   async fetch(request, env) {
-    if (request.method === "OPTIONS") return corsResponse();
+    if (request.method === "OPTIONS") return corsResponse(request);
     if (request.method !== "POST") {
-      return jsonResponse({ success: false, message: "Método no permitido." }, 405);
+      return jsonResponse(request, { success: false, message: "Método no permitido." }, 405);
     }
 
     let data;
     try {
       data = await request.json();
     } catch {
-      return jsonResponse({ success: false, message: "Solicitud inválida." }, 400);
+      return jsonResponse(request, { success: false, message: "Solicitud inválida." }, 400);
     }
 
     const name = String(data.name || "").trim();
@@ -21,16 +21,16 @@ export default {
     const message = String(data.message || "").trim();
 
     // Honeypot: real users never fill this hidden field, bots often do.
-    if (data.botcheck) return jsonResponse({ success: true });
+    if (data.botcheck) return jsonResponse(request, { success: true });
 
     if (!name || !email || !message) {
-      return jsonResponse({ success: false, message: "Completa todos los campos." }, 400);
+      return jsonResponse(request, { success: false, message: "Completa todos los campos." }, 400);
     }
     if (!isValidEmail(email)) {
-      return jsonResponse({ success: false, message: "Correo electrónico inválido." }, 400);
+      return jsonResponse(request, { success: false, message: "Correo electrónico inválido." }, 400);
     }
     if (name.length > 200 || email.length > 200 || message.length > 5000) {
-      return jsonResponse({ success: false, message: "Uno de los campos es demasiado largo." }, 400);
+      return jsonResponse(request, { success: false, message: "Uno de los campos es demasiado largo." }, 400);
     }
 
     const brevoRes = await fetch("https://api.brevo.com/v3/smtp/email", {
@@ -56,10 +56,10 @@ export default {
     if (!brevoRes.ok) {
       const brevoError = await brevoRes.text();
       console.error("Brevo error", brevoRes.status, brevoError);
-      return jsonResponse({ success: false, message: "No se pudo enviar el correo." }, 502);
+      return jsonResponse(request, { success: false, message: "No se pudo enviar el correo." }, 502);
     }
 
-    return jsonResponse({ success: true });
+    return jsonResponse(request, { success: true });
   }
 };
 
@@ -71,21 +71,24 @@ function escapeHtml(str) {
   return str.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
-function corsHeaders() {
+function corsHeaders(request) {
+  const origin = request.headers.get("Origin");
+  const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
   return {
-    "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+    "Access-Control-Allow-Origin": allowed,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type"
+    "Access-Control-Allow-Headers": "Content-Type",
+    Vary: "Origin"
   };
 }
 
-function corsResponse() {
-  return new Response(null, { headers: corsHeaders() });
+function corsResponse(request) {
+  return new Response(null, { headers: corsHeaders(request) });
 }
 
-function jsonResponse(obj, status = 200) {
+function jsonResponse(request, obj, status = 200) {
   return new Response(JSON.stringify(obj), {
     status,
-    headers: { "Content-Type": "application/json", ...corsHeaders() }
+    headers: { "Content-Type": "application/json", ...corsHeaders(request) }
   });
 }

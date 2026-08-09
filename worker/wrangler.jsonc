@@ -3,7 +3,8 @@
   "main": "src/index.js",
   "compatibility_date": "2026-08-01",
   "routes": [
-    "pompasys.com/api/contact"
+    "pompasys.com/api/contact",
+    "www.pompasys.com/api/contact"
   ]
   // BREVO_API_KEY is a secret, not a var — set it with:
   //   npx wrangler secret put BREVO_API_KEY

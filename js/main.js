@@ -68,7 +68,7 @@
     status.style.color = "";
     status.textContent = t("form_sending");
 
-    fetch("/api/contact", {
+    fetch("https://pompasys.com/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(Object.fromEntries(new FormData(form)))
