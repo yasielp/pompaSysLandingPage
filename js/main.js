@@ -3,11 +3,17 @@
 
   // Header scroll state
   var header = document.getElementById("header");
+  var backToTop = document.getElementById("backToTop");
   var onScroll = function () {
     header.classList.toggle("is-scrolled", window.scrollY > 8);
+    backToTop.classList.toggle("is-visible", window.scrollY > 480);
   };
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
+
+  backToTop.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 
   // Mobile nav toggle
   var navToggle = document.getElementById("navToggle");

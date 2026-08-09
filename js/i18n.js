@@ -13,6 +13,7 @@
       nav_contact_footer: "Contacto",
       nav_toggle_open: "Abrir menú",
       nav_toggle_close: "Cerrar menú",
+      back_to_top: "Volver arriba",
 
       hero_eyebrow: "Servicios informáticos de nueva generación",
       hero_title_before: "Tecnología que ",
@@ -97,6 +98,7 @@
       nav_contact_footer: "Contact",
       nav_toggle_open: "Open menu",
       nav_toggle_close: "Close menu",
+      back_to_top: "Back to top",
 
       hero_eyebrow: "Next-generation IT services",
       hero_title_before: "Technology that ",
