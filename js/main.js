@@ -13,16 +13,18 @@
   var navToggle = document.getElementById("navToggle");
   var navMenu = document.getElementById("navMenu");
 
+  var t = function (key) { return window.pompasysI18n ? window.pompasysI18n.t(key) : key; };
+
   var closeMenu = function () {
     navMenu.classList.remove("is-open");
     navToggle.setAttribute("aria-expanded", "false");
-    navToggle.setAttribute("aria-label", "Abrir menú");
+    navToggle.setAttribute("aria-label", t("nav_toggle_open"));
   };
 
   navToggle.addEventListener("click", function () {
     var isOpen = navMenu.classList.toggle("is-open");
     navToggle.setAttribute("aria-expanded", String(isOpen));
-    navToggle.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
+    navToggle.setAttribute("aria-label", isOpen ? t("nav_toggle_close") : t("nav_toggle_open"));
   });
 
   navMenu.addEventListener("click", function (e) {
@@ -57,14 +59,14 @@
     e.preventDefault();
 
     if (!form.checkValidity()) {
-      status.textContent = "Por favor completa todos los campos correctamente.";
-      status.style.color = "#ff6b6b";
+      status.textContent = t("form_error_validity");
+      status.style.color = "#ffc4b3";
       return;
     }
 
     submitBtn.disabled = true;
     status.style.color = "";
-    status.textContent = "Enviando...";
+    status.textContent = t("form_sending");
 
     fetch("/api/contact", {
       method: "POST",
@@ -75,16 +77,16 @@
       .then(function (data) {
         if (data.success) {
           status.style.color = "";
-          status.textContent = "¡Gracias! Hemos recibido tu mensaje, te contactaremos pronto.";
+          status.textContent = t("form_success");
           form.reset();
         } else {
-          status.style.color = "#ff6b6b";
-          status.textContent = "No se pudo enviar el mensaje. Intenta de nuevo o escríbenos por correo.";
+          status.style.color = "#ffc4b3";
+          status.textContent = t("form_error_generic");
         }
       })
       .catch(function () {
-        status.style.color = "#ff6b6b";
-        status.textContent = "Error de conexión. Intenta de nuevo o escríbenos por correo.";
+        status.style.color = "#ffc4b3";
+        status.textContent = t("form_error_connection");
       })
       .finally(function () {
         submitBtn.disabled = false;
