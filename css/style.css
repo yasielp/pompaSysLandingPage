@@ -4,6 +4,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
+  color-scheme: light;
   --color-bg: #ffffff;
   --color-surface: #ffffff;
   --color-surface-alt: #f7f9fc;
