@@ -48,10 +48,11 @@ Las claves de Turnstile se leen al arrancar el servicio: no hace falta recompila
 # Usuario sin acceso a shell para correr la app
 sudo useradd --system --create-home --shell /usr/sbin/nologin pompasys
 
-# Código
-sudo mkdir -p /opt/pompasys && sudo chown pompasys:pompasys /opt/pompasys
-sudo -u pompasys git clone <URL_DEL_REPO> /opt/pompasys
-cd /opt/pompasys
+# Código (si el proyecto ya está en esa carpeta, omite el clone)
+sudo mkdir -p /var/www/landingPages
+sudo git clone <URL_DEL_REPO> /var/www/landingPages/pompaSysLandingPage
+sudo chown -R pompasys:pompasys /var/www/landingPages/pompaSysLandingPage
+cd /var/www/landingPages/pompaSysLandingPage
 ```
 
 Archivo de entorno (rellena los valores reales):
@@ -71,12 +72,14 @@ sudo chown root:root /etc/pompasys.env && sudo chmod 600 /etc/pompasys.env
 sudo nano /etc/pompasys.env
 ```
 
-> **No dejes un `.env` en `/opt/pompasys`.** Next copia ese archivo dentro de `.next/standalone` al compilar, y contendría tus claves. En el servidor los secretos viven solo en `/etc/pompasys.env`. El script de despliegue borra cualquier `.env` que se cuele en el build.
+> Si la carpeta ya existe y es de otro usuario (por ejemplo `www-data` o el tuyo), tienes dos opciones: cambiarle el dueño con el `chown` de arriba, o usar ese usuario en lugar de `pompasys` en `User=` del servicio y en los `sudo -u`. Si Git se queja de "dubious ownership", ejecuta `git config --global --add safe.directory /var/www/landingPages/pompaSysLandingPage` con el usuario que corre el script.
+
+> **No dejes un `.env` en `/var/www/landingPages/pompaSysLandingPage`.** Next copia ese archivo dentro de `.next/standalone` al compilar, y contendría tus claves. En el servidor los secretos viven solo en `/etc/pompasys.env`. El script de despliegue borra cualquier `.env` que se cuele en el build.
 
 Primera compilación y arranque:
 
 ```bash
-cd /opt/pompasys
+cd /var/www/landingPages/pompaSysLandingPage
 sudo -u pompasys ./scripts/deploy.sh --no-restart
 ```
 
@@ -93,7 +96,7 @@ After=network.target
 Type=simple
 User=pompasys
 StateDirectory=pompasys
-WorkingDirectory=/opt/pompasys/.next/standalone
+WorkingDirectory=/var/www/landingPages/pompaSysLandingPage/.next/standalone
 EnvironmentFile=/etc/pompasys.env
 ExecStart=/usr/bin/node server.js
 Restart=on-failure
@@ -188,7 +191,7 @@ Desde internet:
 ## 8. Actualizar a una nueva versión
 
 ```bash
-cd /opt/pompasys
+cd /var/www/landingPages/pompaSysLandingPage
 sudo -u pompasys ./scripts/deploy.sh
 ```
 
@@ -197,7 +200,7 @@ El script hace `git pull`, instala dependencias, compila, copia los archivos est
 **Volver a una versión anterior:**
 
 ```bash
-cd /opt/pompasys
+cd /var/www/landingPages/pompaSysLandingPage
 sudo -u pompasys git log --oneline -10          # elige el commit bueno
 sudo -u pompasys git checkout <commit>
 sudo -u pompasys ./scripts/deploy.sh --no-pull
