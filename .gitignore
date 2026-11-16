@@ -1,10 +1,6 @@
 # Dependencies
 node_modules/
 
-# Wrangler / Cloudflare local state
-.wrangler/
-.dev.vars
-
 # Environment / secrets
 .env
 .env.*
@@ -16,3 +12,15 @@ Thumbs.db
 *.swp
 .idea/
 .vscode/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Contact messages that could not be emailed
+data/
+
+# Claude Code local config
+.claude/
